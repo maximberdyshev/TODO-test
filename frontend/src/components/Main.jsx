@@ -12,29 +12,13 @@ const Main = () => {
     <div className={styles.main}>
       {localStorage.getItem('authorized') == 0 ? (
         <Routes>
-          <Route
-            path='/todos'
-            element={
-              <Todos
-                isAuth={isAuth}
-                setAuth={setAuth}
-              />
-            }
-          />
+          <Route path='/todos' element={<Todos isAuth={isAuth} setAuth={setAuth} />} />
           <Route path='/error' element={<Error />} />
           <Route path='*' element={<Navigate to='/todos' />} />
         </Routes>
       ) : (
         <Routes>
-          <Route
-            path='/login'
-            element={
-              <Login
-                isAuth={isAuth}
-                setAuth={setAuth}
-              />
-            }
-          />
+          <Route path='/login' element={<Login isAuth={isAuth} setAuth={setAuth} />} />
           <Route path='/error' element={<Error />} />
           <Route path='*' element={<Navigate to='/login' />} />
         </Routes>
