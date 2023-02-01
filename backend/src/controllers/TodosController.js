@@ -1,4 +1,5 @@
 import dotenv from 'dotenv'
+import { json } from 'express'
 import knex from 'knex'
 import knexfile from '../../db/knexfile.js'
 
@@ -42,12 +43,11 @@ class TodosController {
       })
   }
 
-  static checkTask = () => {}
-
   static updateTask = () => {}
 
   static createTask = async (req, res) => {
     await knx('todos')
+      .returning('id')
       .insert({
         title: req.body.todo.title,
         description: req.body.todo.body,
@@ -56,16 +56,28 @@ class TodosController {
         initiator: req.body.todo.initiator,
         executor: req.body.todo.executor,
       })
-      .then(() => {
-        return res.json(0)
+      .then((id) => {
+        return res.json(id[0].id)
       })
       .catch((err) => {
         console.log(`TodosController.createTask(), err: ${err}`)
         return res.json(1)
-      })
+      }) 
   }
 
-  static deleteTask = () => {}
+  static deleteTask = async (req, res) => {
+    console.log(req.body)
+    await knx('todos')
+    .where({ id: req.body.id })
+    .del()
+    .then(() => {
+      return res.json(0)
+    })
+    .catch((err) => {
+      console.log(`TodosController.deleteTask()< err: ${err}`)
+      return res.json(1)
+    })
+  }
 }
 
 export { TodosController }

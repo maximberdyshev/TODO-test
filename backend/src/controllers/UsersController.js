@@ -39,7 +39,8 @@ class UsersController {
 
   static removeActive = async (req, res) => {
     await knx('active_users')
-      .delete('user_login', req.body.login)
+      .where({ user_login: req.body.login })
+      .del()
       .then(() => {
         return res.json(0)
       })

@@ -16,9 +16,9 @@ const MyNavbar = (props) => {
   }
 
   const createTodo = async (todo) => {
-    const create = await APICtodos.createTask(todo)
-    // console.log(create)
-    props.setTodos([...props.todos, todo])
+    const createID = await APICtodos.createTask(todo)
+    const addID = {...todo, id: createID}
+    props.setTodos([...props.todos, addID])
     setModal(!modal)
   }
 

@@ -11,8 +11,6 @@ class APICtodos {
     return response.data
   }
 
-  static checkTask = async () => {}
-
   static updateTask = async () => {}
 
   static createTask = async (todo) => {
@@ -22,7 +20,12 @@ class APICtodos {
     return response.data
   }
 
-  static deleteTask = async () => {}
+  static deleteTask = async (id) => {
+    const response = await axios.post('http://localhost:3001/todos/delete', {
+      id,
+    })
+    return response.data
+  }
 }
 
 export { APICtodos }

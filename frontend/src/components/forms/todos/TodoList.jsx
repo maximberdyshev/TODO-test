@@ -1,9 +1,13 @@
 import React from 'react'
+import { APICtodos } from '../../../APIC/APICtodos.js'
 import TodoItem from './TodoItem.jsx'
 
 const TodoList = ({ todos, setTodos }) => {
-  function removeTodo(todo) {
-    setTodos(todos.filter((t) => t.id !== todo.id))
+  const removeTodo = async (id) => {
+    // console.log(id)
+    const remove = await APICtodos.deleteTask(id) 
+    // console.log(remove)
+    setTodos(todos.filter((todo) => todo.id != id))
   }
 
   const seeTodo = (e) => {
