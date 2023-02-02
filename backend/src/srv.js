@@ -7,10 +7,21 @@ import todosRouter from './routes/todosRouter.js'
 dotenv.config({ path: '~/Prog/std/.env' })
 
 const srv = express()
-const SRV_PORT = process.env.SRV_PORT || 3002
+const SRV_PORT = process.env.SRV_PORT 
 const SRV_ADDR = process.env.SRV_ADDR
 
-srv.use(cors())
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (process.env.WHITE_LISTS_CLIENTS.indexOf(origin) > -1) {
+      callback(null, true)
+    } else {
+      callback(console.log('cors, denied'))
+    }
+  },
+  optionSuccessStatus: 200,
+}
+
+srv.use(cors(corsOptions))
 srv.use(express.json())
 // test
 srv.use((req, res, next) => {

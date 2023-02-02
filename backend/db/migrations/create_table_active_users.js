@@ -18,6 +18,7 @@ const up = (knex) => {
       .inTable('users')
       .onUpdate('NO ACTION')
       .onDelete('NO ACTION')
+    table.bigint('session_id').notNullable()
   })
 }
 

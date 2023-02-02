@@ -1,9 +1,8 @@
 import axios from 'axios'
 
-// TODO: заменить localhost!!
 class APIClogin {
   static checkLogin = async (login, password) => {
-    const response = await axios.post('http://localhost:3001/users/login', {
+    const response = await axios.post(`http://${FETCH_ADDR}:${FETCH_PORT}/users/login`, {
       login,
       password,
     })
@@ -11,14 +10,14 @@ class APIClogin {
   }
 
   static logOut = async (login) => {
-    const response = await axios.post('http://localhost:3001/users/logout', {
+    const response = await axios.post(`http://${FETCH_ADDR}:${FETCH_PORT}/users/logout`, {
       login,
     })
     return response.data
   }
 
   static register = async (login, password) => {
-    const response = await axios.post('http://localhost:3001/users/register', {
+    const response = await axios.post(`http://${FETCH_ADDR}:${FETCH_PORT}/users/register`, {
       login,
       password,
     })

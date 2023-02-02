@@ -9,7 +9,7 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 const exports = {
-  // resolve и plugins добавлены для того, чтобы работала соль
+  // resolve и plugins добавлены, чтобы был доступ к переменным .env
   resolve: {
     fallback: {
       os: false,
@@ -19,7 +19,9 @@ const exports = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      'process.env.SALT': JSON.stringify(process.env.SALT),
+      'SALT': JSON.stringify(process.env.SALT),
+      'FETCH_ADDR': JSON.stringify(process.env.FETCH_ADDR),
+      'FETCH_PORT': JSON.stringify(process.env.FETCH_PORT),
     }),
   ],
   entry: './src/app.js',
