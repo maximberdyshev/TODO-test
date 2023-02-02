@@ -20,12 +20,20 @@ const Login = (props) => {
     }
 
     const hash = salting(userPassword)
-    const checkUser = await APIClogin.checkLogin(userName, hash)
+    const takeSessionID = () => {
+      const first = new Date().getTime()
+      const second = Math.random(0,1)
+      
+      return `${first}.${Math.round(first*second).toString().slice(0,9)}`
+    }
+    const sessionID = takeSessionID()
+    const checkUser = await APIClogin.checkLogin(userName, hash, sessionID)
 
     if (checkUser == 0) {
       props.setAuth(!props.isAuth)
       localStorage.setItem('authorized', '0')
       localStorage.setItem('userLogin', userName)
+      localStorage.setItem('sessionID', sessionID)
     } else {
       setModalMessage('Неправильный логин или пароль.')
       setModal(!modal)

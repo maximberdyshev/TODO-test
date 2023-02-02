@@ -13,7 +13,7 @@ class UsersController {
       .where({ login: req.body.login, password: req.body.password })
       .then((id) => {
         if (id.length == 1) {
-          this.addActive(id[0].id, req.body.login)
+          this.addActive(id[0].id, req.body.login, req.body.sessionID)
           return res.json(0)
         } else {
           return res.json(1)
@@ -25,9 +25,9 @@ class UsersController {
       })
   }
 
-  static addActive = async (id, login) => {
+  static addActive = async (id, login, sessionID) => {
     await knx('active_users')
-      .insert({ user_id: id, user_login: login })
+      .insert({ user_id: id, user_login: login, session_id: sessionID })
       .then(() => {
         return 0
       })
@@ -39,7 +39,7 @@ class UsersController {
 
   static removeActive = async (req, res) => {
     await knx('active_users')
-      .where({ user_login: req.body.login })
+      .where({ user_login: req.body.login, session_id: req.body.sessionID })
       .del()
       .then(() => {
         return res.json(0)

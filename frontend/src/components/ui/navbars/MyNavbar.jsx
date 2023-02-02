@@ -10,7 +10,7 @@ const MyNavbar = (props) => {
   const [modal, setModal] = useState(false)
 
   const logOut = async () => {
-    await APIClogin.logOut(localStorage.getItem('userLogin'))
+    await APIClogin.logOut(localStorage.getItem('userLogin'), localStorage.getItem('sessionID'))
     localStorage.clear()
     props.setAuth(!props.isAuth)
   }
