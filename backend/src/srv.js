@@ -18,14 +18,13 @@ const corsOptions = {
       callback(console.log('cors, denied'))
     }
   },
-  optionSuccessStatus: 200,
 }
 
 srv.use(cors(corsOptions))
 srv.use(express.json())
 // test
 srv.use((req, res, next) => {
-  console.log(new Date(), req.body)
+  console.log(new Date(), req.method, req.body)
   next()
 })
 srv.use('/users', usersRouter)

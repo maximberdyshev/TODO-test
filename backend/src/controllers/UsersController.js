@@ -7,6 +7,18 @@ dotenv.config({ path: '~/Prog/std/.env' })
 const knx = knex(knexfile[process.env.KNEX_PROFILE])
 
 class UsersController {
+  static getAll = async (req, res) => {
+    await knx('users')
+      .select('login', 'id')
+      .then((arr) => {
+        if (arr.length != 0) {
+          return res.json(arr)
+        } else {
+          return res.json(1)
+        }
+      })
+  }
+
   static login = async (req, res) => {
     await knx('users')
       .select('id')
@@ -14,7 +26,7 @@ class UsersController {
       .then((id) => {
         if (id.length == 1) {
           this.addActive(id[0].id, req.body.login, req.body.sessionID)
-          return res.json(0)
+          return res.json(id[0].id)
         } else {
           return res.json(1)
         }

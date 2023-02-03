@@ -10,6 +10,7 @@ const TodoList = ({ todos, setTodos }) => {
     setTodos(todos.filter((todo) => todo.id != id))
   }
 
+  //
   const seeTodo = (e) => {
     let updateTodos = todos.map(todo => {
       if (todo.id === e.id) {
@@ -20,6 +21,7 @@ const TodoList = ({ todos, setTodos }) => {
     setTodos(updateTodos)
   }
 
+  //
   const completeTodo = (e) => {
     let updateTodos = todos.map(todo => {
       if (todo.id === e.id) {

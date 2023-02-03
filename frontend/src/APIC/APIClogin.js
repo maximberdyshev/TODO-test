@@ -25,6 +25,11 @@ class APIClogin {
     })
     return response.data
   }
+
+  static getUsers = async () => {
+    const response = await axios.get(`http://${FETCH_ADDR}:${FETCH_PORT}/users/allusers`)
+    return response.data
+  }
 }
 
 export { APIClogin }

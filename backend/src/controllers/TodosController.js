@@ -1,5 +1,4 @@
 import dotenv from 'dotenv'
-import { json } from 'express'
 import knex from 'knex'
 import knexfile from '../../db/knexfile.js'
 
@@ -66,7 +65,6 @@ class TodosController {
   }
 
   static deleteTask = async (req, res) => {
-    console.log(req.body)
     await knx('todos')
     .where({ id: req.body.id })
     .del()
