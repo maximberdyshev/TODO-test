@@ -10,7 +10,7 @@ const TodoCreate = ({ items, ...props }) => {
     dateEnd: '',
     dateCreate: '',
     initiator: '',
-    executor: '',
+    executor: localStorage.getItem('userID'),
   })
 
   const getToday = () => {
@@ -62,14 +62,6 @@ const TodoCreate = ({ items, ...props }) => {
           value={newTodo.dateEnd}
           onChange={(event) => {
             setNewTodo({ ...newTodo, dateEnd: event.target.value })
-          }}
-        />
-        <MyInput
-          type='text'
-          placeholder='Исполнитель'
-          value={newTodo.executor}
-          onChange={(event) => {
-            setNewTodo({ ...newTodo, executor: event.target.value })
           }}
         />
         <MySelect items={items} onChange={(event) => {

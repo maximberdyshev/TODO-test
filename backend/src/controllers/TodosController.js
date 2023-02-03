@@ -8,7 +8,6 @@ const knx = knex(knexfile[process.env.KNEX_PROFILE])
 
 class TodosController {
   static getAll = async (req, res) => {
-    // получили login, нужно его преобразовать в id
     let idLogin
 
     await knx('users')

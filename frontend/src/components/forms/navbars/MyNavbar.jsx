@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react'
 import styles from './MyNavbar.module.css'
 import { APIClogin } from '../../../APIC/APIClogin.js'
 import { APICtodos } from '../../../APIC/APICtodos.js'
-import MyButton from '../buttons/MyButton.jsx'
-import MyModal from '../modals/MyModal.jsx'
-import TodoCreate from '../../forms/todos/TodoCreate.jsx'
+import MyButton from '../../ui/buttons/MyButton.jsx'
+import MyModal from '../../ui/modals/MyModal.jsx'
+import TodoCreate from '../todos/TodoCreate.jsx'
 
 const MyNavbar = (props) => {
   const [modal, setModal] = useState(false)
@@ -19,7 +19,7 @@ const MyNavbar = (props) => {
     let options = []
 
     for (let i = 0; arr.length > i; i++) {
-      options.push({ login: arr[i].login, id: arr[i].id })
+      options.push({ label: arr[i].login, value: arr[i].id })
     }
 
     return options

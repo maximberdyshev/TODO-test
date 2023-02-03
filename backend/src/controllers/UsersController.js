@@ -17,6 +17,10 @@ class UsersController {
           return res.json(1)
         }
       })
+      .catch((err) => {
+        console.log(`UsersController.getAll(), err: ${err}`)
+        return res.json(1)
+      })
   }
 
   static login = async (req, res) => {

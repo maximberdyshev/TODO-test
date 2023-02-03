@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styles from '../Main.module.css'
 import TodoList from '../forms/todos/TodoList.jsx'
-import MyNavbar from '../ui/navbars/MyNavbar.jsx'
+import MyNavbar from '../forms/navbars/MyNavbar.jsx'
 import { APICtodos } from '../../APIC/APICtodos.js'
 
 const Todos = (props) => {
