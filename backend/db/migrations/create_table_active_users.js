@@ -19,6 +19,7 @@ const up = (knex) => {
       .onUpdate('NO ACTION')
       .onDelete('NO ACTION')
     table.string('session_id').notNullable()
+    table.primary['user_id', 'user_login', 'session_id']
   })
 }
 

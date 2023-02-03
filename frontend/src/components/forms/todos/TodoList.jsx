@@ -4,7 +4,6 @@ import TodoItem from './TodoItem.jsx'
 
 const TodoList = ({ todos, setTodos }) => {
   const removeTodo = async (id) => {
-    // console.log(id)
     const remove = await APICtodos.deleteTask(id) 
     // console.log(remove)
     setTodos(todos.filter((todo) => todo.id != id))
