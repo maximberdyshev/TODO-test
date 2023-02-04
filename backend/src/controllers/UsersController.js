@@ -24,13 +24,18 @@ class UsersController {
   }
 
   static login = async (req, res) => {
-    await knx('users')
-      .select('id')
+    await knx({ u: 'users' })
+      .innerJoin({ r: 'roles' }, 'u.role', '=', 'r.id')
+      .select(
+        { id: 'u.id' }, 
+        { roleID: 'u.role' },
+        { role: 'r.role' },
+        { depID: 'u.department' })
       .where({ login: req.body.login, password: req.body.password })
-      .then((id) => {
-        if (id.length == 1) {
-          this.addActive(id[0].id, req.body.login, req.body.sessionID)
-          return res.json(id[0].id)
+      .then((arr) => {
+        if (arr.length == 1) {
+          this.addActive(arr[0].id, req.body.login, req.body.sessionID)
+          return res.json(arr[0])
         } else {
           return res.json(false)
         }

@@ -1,9 +1,9 @@
 import axios from 'axios'
 
 class APICtodos {
-  static getAllTask = async (login) => {
+  static getAllTask = async (args) => {
     const response = await axios.post(`http://${FETCH_ADDR}:${FETCH_PORT}/todos/all`, {
-      login,
+      args,
     })
     return response.data
   }
@@ -20,6 +20,13 @@ class APICtodos {
   static deleteTask = async (id) => {
     const response = await axios.post(`http://${FETCH_ADDR}:${FETCH_PORT}/todos/delete`, {
       id,
+    })
+    return response.data
+  }
+
+  static ttt = async (args) => {
+    const response = await axios.post(`http://${FETCH_ADDR}:${FETCH_PORT}/todos/ttt`, {
+      args,
     })
     return response.data
   }

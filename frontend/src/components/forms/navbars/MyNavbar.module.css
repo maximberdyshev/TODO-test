@@ -12,6 +12,11 @@
   margin-right: 25px;
 }
 
+.navbar__span {
+  margin-left: auto;
+  margin-right: 25px;
+}
+
 /* .navbar__links {
   border: 1px solid peru;
   padding: 5px 15px;

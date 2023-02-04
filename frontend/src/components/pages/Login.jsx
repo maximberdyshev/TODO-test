@@ -27,14 +27,17 @@ const Login = (props) => {
       return `${first}.${Math.round(first*second).toString().slice(0,9)}`
     }
     const sessionID = takeSessionID()
-    const userID = await APIClogin.checkLogin(userName, hash, sessionID)
+    const res = await APIClogin.checkLogin(userName, hash, sessionID)
 
-    if (userID) {
+    if (res.id) {
       props.setAuth(!props.isAuth)
       localStorage.setItem('authorized', '0')
       localStorage.setItem('userLogin', userName)
       localStorage.setItem('sessionID', sessionID)
-      localStorage.setItem('userID', userID)
+      localStorage.setItem('userID', res.id)
+      localStorage.setItem('userRole', res.role)
+      localStorage.setItem('userRoleID', res.roleID)
+      localStorage.setItem('depID', res.depID)
     } else {
       setModalMessage('Неправильный логин или пароль.')
       setModal(!modal)

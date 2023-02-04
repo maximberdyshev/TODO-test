@@ -6,7 +6,11 @@ import { APICtodos } from '../../APIC/APICtodos.js'
 
 const Todos = (props) => {
   const getAll = async () => {
-    const res = await APICtodos.getAllTask(localStorage.getItem('userLogin'))
+    const args = {
+      roleID: localStorage.getItem('userRoleID'),
+      depID: localStorage.getItem('depID'),
+    }
+    const res = await APICtodos.getAllTask(args)
     setTodos(res)
   }
 

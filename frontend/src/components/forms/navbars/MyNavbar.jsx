@@ -50,13 +50,28 @@ const MyNavbar = (props) => {
     setModal(!modal)
   }
 
+  // тестируем всякое
+  const getTest = async () => {
+    const args = {
+      roleID: localStorage.getItem('userRoleID'),
+      depID: localStorage.getItem('depID'),
+    }
+    const res = await APICtodos.ttt(args)
+    console.log(res)
+  }
+
   return (
     <div className={styles.navbar}>
       <MyButton children={'Новая задача'} onClick={() => {setModal(!modal)}} />
       <MyModal visible={modal} setVisible={setModal}>
         <TodoCreate createTodo={createTodo} items={userSelect} />
       </MyModal>
+      {/* тестовая кнопачка */}
+      <button onClick={getTest}>asdasd</button>
       <div className={styles.navbar__exit}>
+        <span className={styles.navbar__span}>
+          Пользователь: {localStorage.getItem('userLogin')} ({localStorage.getItem('userRole')})
+        </span>
         <MyButton children={'Выйти'} onClick={logOut} />
       </div>
     </div>

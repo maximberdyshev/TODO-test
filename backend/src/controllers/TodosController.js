@@ -9,10 +9,12 @@ const knx = knex(knexfile[process.env.KNEX_PROFILE])
 class TodosController {
   static getAll = async (req, res) => {
     await knx('todos')
-      .innerJoin({ u1: 'users'}, 'todos.executor', '=', 'u1.id')
-      .innerJoin({ u2: 'users'}, 'todos.initiator', '=', 'u2.id')
+      .innerJoin({ u1: 'users' }, 'todos.executor', '=', 'u1.id')
+      .innerJoin({ u2: 'users' }, 'todos.initiator', '=', 'u2.id')
       .innerJoin('priorities', 'todos.priority', '=', 'priorities.id')
       .innerJoin('status_list', 'todos.status', '=', 'status_list.id')
+      .innerJoin('roles', 'u1.role', '=', 'roles.id')
+      .innerJoin('departments', 'u1.department', '=', 'departments.id')
       .select(
         'todos.id', 
         'todos.title', 
@@ -24,7 +26,43 @@ class TodosController {
         'status_list.status',
         { executor: 'u1.login' }, 
         { initiator: 'u2.login' })
-      .where({ 'u1.login': req.body.login})
+      .where('u1.department', req.body.args.depID )
+      .andWhere('u1.role', '<=', req.body.args.roleID)
+      .then((arr) => {
+        if (arr.length >= 1) {
+          return res.json(arr)
+        } else {
+          return res.json([])
+        }
+      })
+      .catch((err) => {
+        console.log(`TodosController.getAll(), err: ${err}`)
+        return res.json(1)
+      })
+  }
+
+  // TODO: тестовый запрос с джойнами
+  static ttt = async (req, res) => {
+    await knx('todos')
+      .innerJoin({ u1: 'users' }, 'todos.executor', '=', 'u1.id')
+      .innerJoin({ u2: 'users' }, 'todos.initiator', '=', 'u2.id')
+      .innerJoin('priorities', 'todos.priority', '=', 'priorities.id')
+      .innerJoin('status_list', 'todos.status', '=', 'status_list.id')
+      .innerJoin('roles', 'u1.role', '=', 'roles.id')
+      .innerJoin('departments', 'u1.department', '=', 'departments.id')
+      .select(
+        'todos.id', 
+        'todos.title', 
+        'todos.description', 
+        'todos.date_create', 
+        'todos.date_update',
+        'todos.date_end',
+        'priorities.priority',
+        'status_list.status',
+        { executor: 'u1.login' }, 
+        { initiator: 'u2.login' })
+      .where('u1.department', req.body.args.depID )
+      .andWhere('u1.role', '<=', req.body.args.roleID)
       .then((arr) => {
         if (arr.length >= 1) {
           return res.json(arr)
