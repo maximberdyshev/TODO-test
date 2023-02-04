@@ -29,7 +29,7 @@ const Login = (props) => {
     const sessionID = takeSessionID()
     const userID = await APIClogin.checkLogin(userName, hash, sessionID)
 
-    if (userID != 0) {
+    if (userID) {
       props.setAuth(!props.isAuth)
       localStorage.setItem('authorized', '0')
       localStorage.setItem('userLogin', userName)
