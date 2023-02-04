@@ -32,12 +32,12 @@ class UsersController {
           this.addActive(id[0].id, req.body.login, req.body.sessionID)
           return res.json(id[0].id)
         } else {
-          return res.json(1)
+          return res.json(false)
         }
       })
       .catch((err) => {
         console.log(`UsersController.login(), err: ${err}`)
-        return res.json(1)
+        return res.json(false)
       })
   }
 

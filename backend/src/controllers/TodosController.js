@@ -8,67 +8,11 @@ const knx = knex(knexfile[process.env.KNEX_PROFILE])
 
 class TodosController {
   static getAll = async (req, res) => {
-    let idLogin
-
-    await knx('users')
-      .select('id')
-      .where({ login: req.body.login })
-      .then((id) => {
-        if (id.length == 1) {
-          idLogin = id[0].id
-        } else {
-          return res.json(1)
-        }
-      })
-      .catch((err) => {
-        console.log(`TodosController.getAll(), err: ${err}`)
-        return res.json(1)
-      })
-
     await knx('todos')
-      .select('*')
-      .where({ executor: idLogin })
-      .then((arr) => {
-        if (arr.length >= 1) {
-          return res.json(arr)
-        } else {
-          return res.json([])
-        }
-      })
-      .catch((err) => {
-        console.log(`TodosController.getAll(), err: ${err}`)
-        return res.json(1)
-      })
-  }
-
-  static ttt = async (req, res) => {
-    let idLogin
-
-    await knx('users')
-      .select('id')
-      .where({ login: req.body.login })
-      .then((id) => {
-        if (id.length == 1) {
-          idLogin = id[0].id
-        } else {
-          return res.json(1)
-        }
-      })
-      .catch((err) => {
-        console.log(`TodosController.getAll(), err: ${err}`)
-        return res.json(1)
-      })
-
-    await knx('todos')
-      .innerJoin('users', function() {
-        this
-          .on('users.id', '=', 'todos.executor')
-          .orOn('users.id', '=', 'todos.initiator')
-      })
-      // .join('users', 'todos.executor', '=', 'users.id')
-      // .join('users', 'todos.initiator', '=', 'users.id')
-      .join('priorities', 'todos.priority', '=', 'priorities.id')
-      .join('status_list', 'todos.status', '=', 'status_list.id')
+      .innerJoin({ u1: 'users'}, 'todos.executor', '=', 'u1.id')
+      .innerJoin({ u2: 'users'}, 'todos.initiator', '=', 'u2.id')
+      .innerJoin('priorities', 'todos.priority', '=', 'priorities.id')
+      .innerJoin('status_list', 'todos.status', '=', 'status_list.id')
       .select(
         'todos.id', 
         'todos.title', 
@@ -78,9 +22,9 @@ class TodosController {
         'todos.date_end',
         'priorities.priority',
         'status_list.status',
-        'users.login',
-        'users.login')
-      .where({ 'todos.executor': idLogin })
+        { executor: 'u1.login' }, 
+        { initiator: 'u2.login' })
+      .where({ 'u1.login': req.body.login})
       .then((arr) => {
         if (arr.length >= 1) {
           return res.json(arr)

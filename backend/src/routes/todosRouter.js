@@ -7,6 +7,5 @@ router.post('/all', TodosController.getAll)
 router.post('/update', TodosController.updateTask)
 router.post('/create', TodosController.createTask)
 router.post('/delete', TodosController.deleteTask)
-router.post('/ttt', TodosController.ttt)
 
 export default router

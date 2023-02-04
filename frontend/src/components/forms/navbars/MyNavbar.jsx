@@ -50,18 +50,12 @@ const MyNavbar = (props) => {
     setModal(!modal)
   }
 
-  const getTest = async () => {
-    const res = await APICtodos.ttt(localStorage.getItem('userLogin'))
-    console.log(res)
-  }
-
   return (
     <div className={styles.navbar}>
       <MyButton children={'Новая задача'} onClick={() => {setModal(!modal)}} />
       <MyModal visible={modal} setVisible={setModal}>
         <TodoCreate createTodo={createTodo} items={userSelect} />
       </MyModal>
-      <button onClick={getTest}>asdasd</button>
       <div className={styles.navbar__exit}>
         <MyButton children={'Выйти'} onClick={logOut} />
       </div>
