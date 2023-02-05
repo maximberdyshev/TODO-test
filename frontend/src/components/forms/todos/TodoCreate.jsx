@@ -10,7 +10,8 @@ const TodoCreate = ({ items, ...props }) => {
     date_end: '',
     dateCreate: '',
     initiator: '',
-    executor: localStorage.getItem('userID'),
+    executor: localStorage.getItem('userLogin'),
+    executorID: localStorage.getItem('userID'),
   })
 
   const getToday = () => {
@@ -36,6 +37,7 @@ const TodoCreate = ({ items, ...props }) => {
       dateCreate: '',
       initiator: '',
       executor: '',
+      executorID: '',
     })
   }
 
@@ -66,9 +68,12 @@ const TodoCreate = ({ items, ...props }) => {
             setNewTodo({ ...newTodo, date_end: event.target.value })
           }}
         />
-        <MySelect items={items} onChange={(event) => {
-            setNewTodo({ ...newTodo, executor: event.target.value })
-          }}/>
+        <MySelect
+          items={items}
+          onChange={(event) => {
+            setNewTodo({ ...newTodo, executorID: event.target.value })
+          }}
+        />
         <div>
           <MyButton children={'Создать задачу'} onClick={addNewTodo} />
         </div>

@@ -152,7 +152,7 @@ class TodosController {
         date_create: req.body.todo.dateCreate,
         date_end: req.body.todo.date_end,
         initiator: req.body.todo.initiator,
-        executor: req.body.todo.executor,
+        executor: req.body.todo.executorID,
       })
       .then((id) => {
         return res.json(id[0].id)
