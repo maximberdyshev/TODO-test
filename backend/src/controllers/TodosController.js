@@ -12,7 +12,7 @@ class TodosController {
       .innerJoin({ u1: 'users' }, 'todos.executor', '=', 'u1.id')
       .innerJoin({ u2: 'users' }, 'todos.initiator', '=', 'u2.id')
       .innerJoin('priorities', 'todos.priority', '=', 'priorities.id')
-      .innerJoin('status_list', 'todos.status', '=', 'status_list.id')
+      // .innerJoin('status_list', 'todos.status', '=', 'status_list.id')
       .innerJoin('roles', 'u1.role', '=', 'roles.id')
       .innerJoin('departments', 'u1.department', '=', 'departments.id')
       .select(
@@ -23,7 +23,8 @@ class TodosController {
         'todos.date_update',
         'todos.date_end',
         'priorities.priority',
-        'status_list.status',
+        'todos.status',
+        // 'status_list.status',
         { executor: 'u1.login' },
         { initiator: 'u2.login' }
       )
@@ -80,16 +81,16 @@ class TodosController {
 
   static updateTask = async (req, res) => {
     // надо преобразовать "буквенные" значения полей в цифровые
-    await knx('status_list')
-      .select('id')
-      .where({ status: req.body.todo.status })
-      .then((id) => {
-        req.body.todo.status = id[0].id
-      })
-      .catch((err) => {
-        console.log(`TodosController.updateTask(), status_list, err: ${err}`)
-        return res.json(false)
-      })
+    // await knx('status_list')
+    //   .select('id')
+    //   .where({ status: req.body.todo.status })
+    //   .then((id) => {
+    //     req.body.todo.status = id[0].id
+    //   })
+    //   .catch((err) => {
+    //     console.log(`TodosController.updateTask(), status_list, err: ${err}`)
+    //     return res.json(false)
+    //   })
 
     await knx('priorities')
       .select('id')
@@ -102,16 +103,16 @@ class TodosController {
         return res.json(false)
       })
 
-    await knx('users')
-      .select('id')
-      .where({ login: req.body.todo.initiator })
-      .then((id) => {
-        req.body.todo.initiator = id[0].id
-      })
-      .catch((err) => {
-        console.log(`TodosController.updateTask(), initiator, err: ${err}`)
-        return res.json(false)
-      })
+    // await knx('users')
+    //   .select('id')
+    //   .where({ login: req.body.todo.initiator })
+    //   .then((id) => {
+    //     req.body.todo.initiator = id[0].id
+    //   })
+    //   .catch((err) => {
+    //     console.log(`TodosController.updateTask(), initiator, err: ${err}`)
+    //     return res.json(false)
+    //   })
 
     await knx('users')
       .select('id')
@@ -131,7 +132,6 @@ class TodosController {
         description: req.body.todo.description,
         date_update: req.body.todo.date_update,
         date_end: req.body.todo.date_end,
-        initiator: req.body.todo.initiator,
         executor: req.body.todo.executor,
       })
       .then(() => {
@@ -139,6 +139,30 @@ class TodosController {
       })
       .catch((err) => {
         console.log(`TodosController.updateTask(), err: ${err}`)
+        return res.json(false)
+      })
+  }
+
+  static completeTask = async (req, res) => {
+    // await knx('status_list')
+    //   .select('id')
+    //   .where({ status: req.body.todo.status })
+    //   .then((id) => {
+    //     req.body.todo.status = id[0].id
+    //   })
+    //   .catch((err) => {
+    //     console.log(`TodosController.completeTask(), status_list, err: ${err}`)
+    //     return res.json(false)
+    //   })
+
+    await knx('todos')
+      .where('id', '=', req.body.id)
+      .update({ status: req.body.status })
+      .then(() => {
+        return res.json(true)
+      })
+      .catch((err) => {
+        console.log(`TodosController.completeTask(), err: ${err}`)
         return res.json(false)
       })
   }

@@ -10,12 +10,12 @@ const TodoItem = ({ todo, number, ...props }) => {
   return (
     <div className={styles.TodoItem}>
       <div className={styles.item_part}>
-        {todo.completed ? (
+        {todo.status === 2 ? (
           <p style={{ textDecoration: 'line-through', color: 'green' }}>
             {number}. {todo.title}
           </p>
         ) : (
-          <p style={{ color: 'grey' }}>
+          <p style={{ color: 'gray' }}>
             {number}. {todo.title}
           </p>
         )}
@@ -30,7 +30,7 @@ const TodoItem = ({ todo, number, ...props }) => {
         ) : (
           <p>Дата окончания: нет</p>
         )}
-        {todo.completed ? (
+        {todo.status === 2 ? (
           <p>Статус задачи: выполнена </p>
         ) : (
           <p>Статус задачи: в работе </p>
@@ -38,7 +38,12 @@ const TodoItem = ({ todo, number, ...props }) => {
       </div>
 
       <div className={styles.btn}>
-        <MyButton children={'Просмотреть'} onClick={() => {setModal(true)}} />
+        <MyButton
+          children={'Просмотреть'}
+          onClick={() => {
+            setModal(true)
+          }}
+        />
         <MyModal visible={modal} setVisible={setModal}>
           <div>
             <TodoUpdate
@@ -50,10 +55,18 @@ const TodoItem = ({ todo, number, ...props }) => {
             />
           </div>
         </MyModal>
-        <MyButton onClick={() => {}}>
-          {todo.completed ? <p>Отменить</p> : <p>Выполнить</p>}
+        <MyButton
+          onClick={() => {
+            props.completeTodo(todo)
+          }}>
+          {todo.status == 2 ? <p>Отменить</p> : <p>Выполнить</p>}
         </MyButton>
-        <MyButton children={'Удалить'} onClick={() => {props.removeTodo(todo.id)}} />
+        <MyButton
+          children={'Удалить'}
+          onClick={() => {
+            props.removeTodo(todo.id)
+          }}
+        />
       </div>
     </div>
   )

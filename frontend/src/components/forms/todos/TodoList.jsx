@@ -27,19 +27,22 @@ const TodoList = ({ todos, setTodos, userSelect }) => {
     console.log('Ошибка при обновлении задачи!')
   }
 
-  // TODO: реализовать выполение задачи
-  const completeTodo = (event) => {
-    event.preventDefault()
+  const completeTodo = (t) => {
+    let updateTodos = todos.map((todo) => {
+      if (todo.id === t.id) {
+        if (todo.status === 1) {
+          APICtodos.completeTask(todo.id, 2)
+          return { ...todo, status: 2 }
+        }
+        if (todo.status === 2) {
+          APICtodos.completeTask(todo.id, 1)
+          return { ...todo, status: 1 }
+        }
+      }
+      return todo
+    })
 
-    console.log(event)
-
-    // let updateTodos = todos.map(todo => {
-    //   if (todo.id === event.id) {
-    //     return {...todo, completed: !todo.completed}
-    //   }
-    //   return todo
-    // })
-    // setTodos(updateTodos)
+    setTodos(updateTodos)
   }
 
   return (
