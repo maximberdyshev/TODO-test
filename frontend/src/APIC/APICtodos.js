@@ -8,7 +8,12 @@ class APICtodos {
     return response.data
   }
 
-  static updateTask = async () => {}
+  static updateTask = async (todo) => {
+    const response = await axios.post(`http://${FETCH_ADDR}:${FETCH_PORT}/todos/update`, {
+      todo,
+    })
+    return response.data
+  }
 
   static createTask = async (todo) => {
     const response = await axios.post(`http://${FETCH_ADDR}:${FETCH_PORT}/todos/create`, {

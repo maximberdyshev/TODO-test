@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import MyButton from '../../ui/buttons/MyButton.jsx'
 import MyModal from '../../ui/modals/MyModal.jsx'
 import styles from './Todo.module.css'
+import TodoUpdate from './TodoUpdate.jsx'
 
 const TodoItem = ({ todo, number, ...props }) => {
   const [modal, setModal] = useState(false)
@@ -38,7 +39,17 @@ const TodoItem = ({ todo, number, ...props }) => {
 
       <div className={styles.btn}>
         <MyButton children={'Просмотреть'} onClick={() => {setModal(true)}} />
-        <MyModal children={'placeholder todo updater'} visible={modal} setVisible={setModal} />
+        <MyModal visible={modal} setVisible={setModal}>
+          <div>
+            <TodoUpdate
+              todo={todo}
+              items={props.userSelect}
+              updateTodo={props.updateTodo}
+              modal={modal}
+              setModal={setModal}
+            />
+          </div>
+        </MyModal>
         <MyButton onClick={() => {}}>
           {todo.completed ? <p>Отменить</p> : <p>Выполнить</p>}
         </MyButton>

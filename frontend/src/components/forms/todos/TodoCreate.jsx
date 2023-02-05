@@ -6,7 +6,7 @@ import MySelect from '../../ui/selects/MySelect.jsx'
 const TodoCreate = ({ items, ...props }) => {
   const [newTodo, setNewTodo] = useState({
     title: '',
-    body: '',
+    description: '',
     date_end: '',
     dateCreate: '',
     initiator: '',
@@ -26,10 +26,12 @@ const TodoCreate = ({ items, ...props }) => {
       dateCreate: getToday(),
       initiator: localStorage.getItem('userID'),
     }
+
     props.createTodo(newTodoItem)
+
     setNewTodo({
       title: '',
-      body: '',
+      description: '',
       date_end: '',
       dateCreate: '',
       initiator: '',
@@ -51,9 +53,9 @@ const TodoCreate = ({ items, ...props }) => {
         <MyInput
           type='text'
           placeholder='Описание задачи'
-          value={newTodo.body}
+          value={newTodo.description}
           onChange={(event) => {
-            setNewTodo({ ...newTodo, body: event.target.value })
+            setNewTodo({ ...newTodo, description: event.target.value })
           }}
         />
         <MyInput

@@ -2,33 +2,44 @@ import React from 'react'
 import { APICtodos } from '../../../APIC/APICtodos.js'
 import TodoItem from './TodoItem.jsx'
 
-const TodoList = ({ todos, setTodos }) => {
+const TodoList = ({ todos, setTodos, userSelect }) => {
   const removeTodo = async (id) => {
-    const remove = await APICtodos.deleteTask(id) 
+    const remove = await APICtodos.deleteTask(id)
     // console.log(remove)
     setTodos(todos.filter((todo) => todo.id != id))
   }
 
-  //
-  const seeTodo = (e) => {
-    let updateTodos = todos.map(todo => {
-      if (todo.id === e.id) {
-        return {...e}
-      }
-      return todo
-    })
-    setTodos(updateTodos)
+  const updateTodo = async (t) => {
+    const res = await APICtodos.updateTask(t)
+
+    if (res) {
+      let updateTodos = todos.map((todo) => {
+        if (todo.id === t.id) {
+          return { ...t }
+        }
+        return todo
+      })
+
+      setTodos(updateTodos)
+      return
+    }
+
+    console.log('Ошибка при обновлении задачи!')
   }
 
-  //
-  const completeTodo = (e) => {
-    let updateTodos = todos.map(todo => {
-      if (todo.id === e.id) {
-        return {...todo, completed: !todo.completed}
-      }
-      return todo
-    })
-    setTodos(updateTodos)
+  // TODO: реализовать выполение задачи
+  const completeTodo = (event) => {
+    event.preventDefault()
+
+    console.log(event)
+
+    // let updateTodos = todos.map(todo => {
+    //   if (todo.id === event.id) {
+    //     return {...todo, completed: !todo.completed}
+    //   }
+    //   return todo
+    // })
+    // setTodos(updateTodos)
   }
 
   return (
@@ -39,8 +50,9 @@ const TodoList = ({ todos, setTodos }) => {
           key={index}
           number={index + 1}
           removeTodo={removeTodo}
-          seeTodo={seeTodo}
+          updateTodo={updateTodo}
           completeTodo={completeTodo}
+          userSelect={userSelect}
         />
       ))}
     </div>

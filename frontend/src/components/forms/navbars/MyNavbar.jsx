@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import styles from './MyNavbar.module.css'
 import { APIClogin } from '../../../APIC/APIClogin.js'
 import { APICtodos } from '../../../APIC/APICtodos.js'
@@ -8,30 +8,6 @@ import TodoCreate from '../todos/TodoCreate.jsx'
 
 const MyNavbar = (props) => {
   const [modal, setModal] = useState(false)
-  // список пользователей для селекта
-  const [userSelect, setUserSelect] = useState([])
-
-  // подгружаем список пользователей с бд
-  const getUsers = async () => {
-    const res = await APIClogin.getUsers()
-    setUserSelect(createOptions(res))
-  }
-
-  // формируем динамический массив "опций" для селекта
-  const createOptions = (arr) => {
-    let options = []
-
-    for (let i = 0; arr.length > i; i++) {
-      options.push({ label: arr[i].login, value: arr[i].id })
-    }
-
-    return options
-  }
-
-  // подгружаем список пользователей на фронт
-  useEffect(() => {
-    getUsers()
-  }, [])
 
   const logOut = async () => {
     await APIClogin.logOut(localStorage.getItem('userLogin'), localStorage.getItem('sessionID'))
@@ -64,7 +40,7 @@ const MyNavbar = (props) => {
     <div className={styles.navbar}>
       <MyButton children={'Новая задача'} onClick={() => {setModal(!modal)}} />
       <MyModal visible={modal} setVisible={setModal}>
-        <TodoCreate createTodo={createTodo} items={userSelect} />
+        <TodoCreate createTodo={createTodo} items={props.userSelect} />
       </MyModal>
       {/* TODO: реализовать функционал */}
       <div className={styles.navbar__btns}>
