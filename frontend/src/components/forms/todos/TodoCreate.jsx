@@ -7,7 +7,7 @@ const TodoCreate = ({ items, ...props }) => {
   const [newTodo, setNewTodo] = useState({
     title: '',
     body: '',
-    dateEnd: '',
+    date_end: '',
     dateCreate: '',
     initiator: '',
     executor: localStorage.getItem('userID'),
@@ -30,7 +30,7 @@ const TodoCreate = ({ items, ...props }) => {
     setNewTodo({
       title: '',
       body: '',
-      dateEnd: '',
+      date_end: '',
       dateCreate: '',
       initiator: '',
       executor: '',
@@ -59,9 +59,9 @@ const TodoCreate = ({ items, ...props }) => {
         <MyInput
           type='text'
           placeholder='Дата окончания'
-          value={newTodo.dateEnd}
+          value={newTodo.date_end}
           onChange={(event) => {
-            setNewTodo({ ...newTodo, dateEnd: event.target.value })
+            setNewTodo({ ...newTodo, date_end: event.target.value })
           }}
         />
         <MySelect items={items} onChange={(event) => {

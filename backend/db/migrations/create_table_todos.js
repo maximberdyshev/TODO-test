@@ -7,9 +7,9 @@ const up = (knex) => {
     table.increments('id')
     table.string('title').notNullable()
     table.string('description').notNullable().defaultTo('Нет описания.')
-    table.date('date_create').notNullable()
-    table.date('date_update')
-    table.date('date_end')
+    table.string('date_create', 10).notNullable()
+    table.string('date_update', 10)
+    table.string('date_end', 10)
     table.smallint('priority').notNullable().defaultTo(2)
     table
       .foreign('priority')

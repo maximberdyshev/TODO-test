@@ -85,7 +85,7 @@ class TodosController {
         title: req.body.todo.title,
         description: req.body.todo.body,
         date_create: req.body.todo.dateCreate,
-        date_end: req.body.todo.dateEnd,
+        date_end: req.body.todo.date_end,
         initiator: req.body.todo.initiator,
         executor: req.body.todo.executor,
       })

@@ -7,6 +7,10 @@
   background-color: lightgray;
 }
 
+.navbar__btns {
+  margin-left: 5px;
+}
+
 .navbar__exit {
   margin-left: auto;
   margin-right: 25px;

@@ -66,6 +66,21 @@ const MyNavbar = (props) => {
       <MyModal visible={modal} setVisible={setModal}>
         <TodoCreate createTodo={createTodo} items={userSelect} />
       </MyModal>
+      {/* TODO: реализовать функционал */}
+      <div className={styles.navbar__btns}>
+      <MyButton>Все задачи</MyButton></div>
+      {/* TODO: реализовать функционал */}
+      <div className={styles.navbar__btns}>
+      <MyButton>Я ответственный</MyButton></div>
+      {/* TODO: реализовать функционал */}
+      <div className={styles.navbar__btns}>
+      <MyButton>Я инициатор</MyButton></div>
+      {/* TODO: реализовать функционал */}
+      <div className={styles.navbar__btns}>
+      <MyButton>Выполненные задачи</MyButton></div>
+      {/* TODO: реализовать функционал */}
+      <div className={styles.navbar__btns}>
+      <MyButton>Просроченные задачи</MyButton></div>
       {/* тестовая кнопачка */}
       <button onClick={getTest}>asdasd</button>
       <div className={styles.navbar__exit}>

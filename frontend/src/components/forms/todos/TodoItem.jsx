@@ -24,7 +24,11 @@ const TodoItem = ({ todo, number, ...props }) => {
 
       <div className={styles.item_part}>
         <p>Приоритет: {todo.priority} </p>
-        <p>Дата окончания: {todo.date_end} </p>
+        {todo.date_end != null ? (
+          <p>Дата окончания: {todo.date_end.split('T')[0]}</p>
+        ) : (
+          <p>Дата окончания: нет</p>
+        )}
         {todo.completed ? (
           <p>Статус задачи: выполнена </p>
         ) : (
