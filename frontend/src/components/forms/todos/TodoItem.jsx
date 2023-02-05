@@ -10,15 +10,27 @@ const TodoItem = ({ todo, number, ...props }) => {
   return (
     <div className={styles.TodoItem}>
       <div className={styles.item_part}>
-        {todo.status === 2 ? (
-          <p style={{ textDecoration: 'line-through', color: 'green' }}>
-            {number}. {todo.title}
-          </p>
-        ) : (
-          <p style={{ color: 'gray' }}>
-            {number}. {todo.title}
-          </p>
-        )}
+        {(() => {
+          if (todo.status === 2) {
+            return (
+              <p style={{ textDecoration: 'line-through', color: 'green' }}>
+                {number}. {todo.title}
+              </p>
+            )
+          } else if (new Date(todo.date_end) < new Date()) {
+            return (
+              <p style={{ color: 'red' }}>
+                {number}. {todo.title}
+              </p>
+            )
+          } else {
+            return (
+              <p style={{ color: 'gray' }}>
+                {number}. {todo.title}
+              </p>
+            )
+          }
+        })()}
         <p>{todo.description}</p>
         <p>Ответственный: {todo.executor} </p>
       </div>

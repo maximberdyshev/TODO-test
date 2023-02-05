@@ -37,6 +37,15 @@ const MyNavbar = (props) => {
     }
     const res = await APICtodos.ttt(args)
     console.log(res)
+    const curDate = new Date()
+    console.log(curDate)
+    const aDate = new Date(res[0].date_end)
+    console.log(aDate)
+    if (new Date(res[0].date_end) > new Date()) {
+      console.log('kek')
+    } else {
+      console.log('ne kek')
+    }
   }
 
   return (
