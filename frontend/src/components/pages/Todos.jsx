@@ -22,7 +22,6 @@ const Todos = (props) => {
     for (let i = 0; arr.length > i; i++) {
       options.push({ label: arr[i].login, value: arr[i].id })
     }
-
     return options
   }
 
@@ -30,19 +29,6 @@ const Todos = (props) => {
   useEffect(() => {
     getUsers()
   }, [])
-
-  const getAllTodos = async () => {
-    const args = {
-      roleID: localStorage.getItem('userRoleID'),
-      depID: localStorage.getItem('depID'),
-    }
-    const res = await APICtodos.getAllTask(args)
-    setTodos(res)
-  }
-
-  useEffect(() => {
-    getAllTodos()
-  }, [todos])
 
   // памятка: образец полей тудушки
   const [todos, setTodos] = useState([
@@ -60,19 +46,66 @@ const Todos = (props) => {
     // },
   ])
 
+  const [filtered, setFiltered] = useState([])
+
+  const getAllTodos = async () => {
+    const args = {
+      roleID: localStorage.getItem('userRoleID'),
+      depID: localStorage.getItem('depID'),
+    }
+    const res = await APICtodos.getAllTask(args)
+    setTodos(res)
+    setFiltered(res)
+  }
+
+  useEffect(() => {
+    getAllTodos()
+  },[])
+
+  const filter = (arg) => {
+    if (arg === 'all') {
+      setFiltered(todos)
+      localStorage.setItem('filter', 'all')
+    } else if (arg === 'me_executor') {
+      let newTodos = [...todos].filter(
+        (todo) => todo.executor === localStorage.getItem('userLogin')
+      )
+      setFiltered(newTodos)
+      localStorage.setItem('filter', 'me_executor')
+    } else if (arg === 'completed') {
+      let newTodos = [...todos].filter(
+        (todo) =>
+          todo.status === 2 &&
+          todo.executor === localStorage.getItem('userLogin')
+      )
+      setFiltered(newTodos)
+      localStorage.setItem('filter', 'completed')
+    } else if (arg === 'overdued') {
+      let newTodos = [...todos].filter(
+        (todo) =>
+          todo.status === 1 &&
+          new Date(todo.date_end) < new Date() &&
+          todo.executor === localStorage.getItem('userLogin')
+      )
+      setFiltered(newTodos)
+      localStorage.setItem('filter', 'overdued')
+    }
+  }
+
   return (
     <div className={styles.todos}>
       <MyNavbar
-        todos={todos}
+        todos={filtered}
         setTodos={setTodos}
         isAuth={props.isAuth}
         setAuth={props.setAuth}
         userSelect={userSelect}
+        filter={filter}
       />
       <div className={styles.TodoList}>
         <TodoList
-          todos={todos}
-          setTodos={setTodos}
+          todos={filtered}
+          setTodos={setFiltered}
           userSelect={userSelect}
         />
       </div>

@@ -59,25 +59,17 @@ const MyNavbar = (props) => {
       <MyModal visible={modal} setVisible={setModal}>
         <TodoCreate createTodo={createTodo} items={props.userSelect} />
       </MyModal>
-      {/* TODO: реализовать функционал */}
       <div className={styles.navbar__btns}>
-        <MyButton>Все задачи</MyButton>
+        <MyButton children={'Все задачи'} onClick={() => {props.filter('all')}} />
       </div>
-      {/* TODO: реализовать функционал */}
       <div className={styles.navbar__btns}>
-        <MyButton>Я ответственный</MyButton>
+        <MyButton children={'Я ответственный'} onClick={() => {props.filter('me_executor')}} />
       </div>
-      {/* TODO: реализовать функционал */}
       <div className={styles.navbar__btns}>
-        <MyButton>Я инициатор</MyButton>
+        <MyButton children={'Мои выполненные задачи'} onClick={() => {props.filter('completed')}} />
       </div>
-      {/* TODO: реализовать функционал */}
       <div className={styles.navbar__btns}>
-        <MyButton>Выполненные задачи</MyButton>
-      </div>
-      {/* TODO: реализовать функционал */}
-      <div className={styles.navbar__btns}>
-        <MyButton>Просроченные задачи</MyButton>
+        <MyButton children={'Мои просроченные задачи'} onClick={() => {props.filter('overdued')}} />
       </div>
       {/* тестовая кнопачка */}
       <button onClick={getTest}>asdasd</button>
