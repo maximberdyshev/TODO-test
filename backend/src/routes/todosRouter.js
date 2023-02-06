@@ -8,7 +8,5 @@ router.post('/update', TodosController.updateTask)
 router.post('/complete', TodosController.completeTask)
 router.post('/create', TodosController.createTask)
 router.post('/delete', TodosController.deleteTask)
-// роут чисто на тесты
-router.post('/ttt', TodosController.ttt)
 
 export default router

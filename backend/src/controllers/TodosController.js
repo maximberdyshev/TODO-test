@@ -12,7 +12,6 @@ class TodosController {
       .innerJoin({ u1: 'users' }, 'todos.executor', '=', 'u1.id')
       .innerJoin({ u2: 'users' }, 'todos.initiator', '=', 'u2.id')
       .innerJoin('priorities', 'todos.priority', '=', 'priorities.id')
-      // .innerJoin('status_list', 'todos.status', '=', 'status_list.id')
       .innerJoin('roles', 'u1.role', '=', 'roles.id')
       .innerJoin('departments', 'u1.department', '=', 'departments.id')
       .select(
@@ -24,45 +23,9 @@ class TodosController {
         'todos.date_end',
         'priorities.priority',
         'todos.status',
-        // 'status_list.status',
         { executor: 'u1.login' },
-        { initiator: 'u2.login' }
-      )
-      .where('u1.department', req.body.args.depID)
-      .andWhere('u1.role', '<=', req.body.args.roleID)
-      .then((arr) => {
-        if (arr.length >= 1) {
-          return res.json(arr)
-        } else {
-          return res.json([])
-        }
-      })
-      .catch((err) => {
-        console.log(`TodosController.getAll(), err: ${err}`)
-        return res.json(1)
-      })
-  }
-
-  // TODO: тестовый запрос с джойнами
-  static ttt = async (req, res) => {
-    await knx('todos')
-      .innerJoin({ u1: 'users' }, 'todos.executor', '=', 'u1.id')
-      .innerJoin({ u2: 'users' }, 'todos.initiator', '=', 'u2.id')
-      .innerJoin('priorities', 'todos.priority', '=', 'priorities.id')
-      .innerJoin('status_list', 'todos.status', '=', 'status_list.id')
-      .innerJoin('roles', 'u1.role', '=', 'roles.id')
-      .innerJoin('departments', 'u1.department', '=', 'departments.id')
-      .select(
-        'todos.id',
-        'todos.title',
-        'todos.description',
-        'todos.date_create',
-        'todos.date_update',
-        'todos.date_end',
-        'priorities.priority',
-        'status_list.status',
-        { executor: 'u1.login' },
-        { initiator: 'u2.login' }
+        { initiator: 'u2.login' },
+        { initiatorRole: 'u2.role'}
       )
       .where('u1.department', req.body.args.depID)
       .andWhere('u1.role', '<=', req.body.args.roleID)
@@ -80,18 +43,6 @@ class TodosController {
   }
 
   static updateTask = async (req, res) => {
-    // надо преобразовать "буквенные" значения полей в цифровые
-    // await knx('status_list')
-    //   .select('id')
-    //   .where({ status: req.body.todo.status })
-    //   .then((id) => {
-    //     req.body.todo.status = id[0].id
-    //   })
-    //   .catch((err) => {
-    //     console.log(`TodosController.updateTask(), status_list, err: ${err}`)
-    //     return res.json(false)
-    //   })
-
     await knx('priorities')
       .select('id')
       .where({ priority: req.body.todo.priority })
@@ -102,17 +53,6 @@ class TodosController {
         console.log(`TodosController.updateTask(), priorities, err: ${err}`)
         return res.json(false)
       })
-
-    // await knx('users')
-    //   .select('id')
-    //   .where({ login: req.body.todo.initiator })
-    //   .then((id) => {
-    //     req.body.todo.initiator = id[0].id
-    //   })
-    //   .catch((err) => {
-    //     console.log(`TodosController.updateTask(), initiator, err: ${err}`)
-    //     return res.json(false)
-    //   })
 
     await knx('users')
       .select('id')
@@ -144,17 +84,6 @@ class TodosController {
   }
 
   static completeTask = async (req, res) => {
-    // await knx('status_list')
-    //   .select('id')
-    //   .where({ status: req.body.todo.status })
-    //   .then((id) => {
-    //     req.body.todo.status = id[0].id
-    //   })
-    //   .catch((err) => {
-    //     console.log(`TodosController.completeTask(), status_list, err: ${err}`)
-    //     return res.json(false)
-    //   })
-
     await knx('todos')
       .where('id', '=', req.body.id)
       .update({ status: req.body.status })

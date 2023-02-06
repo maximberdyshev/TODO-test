@@ -10,13 +10,13 @@ const TodoUpdate = ({ items, ...props }) => {
     date_end: '',
     dateCreate: '',
     initiator: '',
+    initiatorRole: '',
     executor: localStorage.getItem('userID'),
   })
 
   // подгружаем задачу на изменение
   const toChange = (props) => {
     setTodo(props.todo)
-    // setTodo({ ...todo, date_update: getToday() })
   }
 
   useEffect(() => {
@@ -37,42 +37,87 @@ const TodoUpdate = ({ items, ...props }) => {
   return (
     <div>
       <form>
-        <MyInput
-          type='text'
-          placeholder='Заголовок задачи'
-          value={todo.title}
-          onChange={(event) => {
-            setTodo({
-              ...todo,
-              title: event.target.value,
-              date_update: getToday(),
-            })
-          }}
-        />
-        <MyInput
-          type='text'
-          placeholder='Описание задачи'
-          value={todo.description}
-          onChange={(event) => {
-            setTodo({
-              ...todo,
-              description: event.target.value,
-              date_update: getToday(),
-            })
-          }}
-        />
-        <MyInput
-          type='text'
-          placeholder='Дата окончания'
-          value={todo.date_end}
-          onChange={(event) => {
-            setTodo({
-              ...todo,
-              date_end: event.target.value,
-              date_update: getToday(),
-            })
-          }}
-        />
+        {(() => {
+          if (localStorage.getItem('userRoleID') >= todo.initiatorRole) {
+            return (
+              <MyInput
+                type='text'
+                placeholder='Заголовок задачи'
+                value={todo.title}
+                onChange={(event) => {
+                  setTodo({
+                    ...todo,
+                    title: event.target.value,
+                    date_update: getToday(),
+                  })
+                }}
+              />
+            )
+          } else {
+            return (
+              <MyInput
+                type='text'
+                placeholder='Заголовок задачи'
+                value={todo.title}
+                onChange={() => {}}
+              />
+            )
+          }
+        })()}
+        {(() => {
+          if (localStorage.getItem('userRoleID') >= todo.initiatorRole) {
+            return (
+              <MyInput
+                type='text'
+                placeholder='Описание задачи'
+                value={todo.description}
+                onChange={(event) => {
+                  setTodo({
+                    ...todo,
+                    description: event.target.value,
+                    date_update: getToday(),
+                  })
+                }}
+              />
+            )
+          } else {
+            return (
+              <MyInput
+                type='text'
+                placeholder='Описание задачи'
+                value={todo.description}
+                onChange={() => {}}
+              />
+            )
+          }
+        })()}
+        {(() => {
+          if (localStorage.getItem('userRoleID') >= todo.initiatorRole) {
+            return (
+              <MyInput
+                type='text'
+                placeholder='Дата окончания'
+                value={todo.date_end}
+                onChange={(event) => {
+                  setTodo({
+                    ...todo,
+                    date_end: event.target.value,
+                    date_update: getToday(),
+                  })
+                }}
+              />
+            )
+          } else {
+            return (
+              <MyInput
+                type='text'
+                placeholder='Дата окончания'
+                value={todo.date_end}
+                onChange={() => {}}
+              />
+            )
+          }
+        })()}
         <p>Изменить исполнителя</p>
         <MySelect
           items={items}

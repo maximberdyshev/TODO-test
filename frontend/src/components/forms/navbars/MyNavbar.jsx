@@ -29,25 +29,6 @@ const MyNavbar = (props) => {
     setModal(!modal)
   }
 
-  // тестируем всякое
-  const getTest = async () => {
-    const args = {
-      roleID: localStorage.getItem('userRoleID'),
-      depID: localStorage.getItem('depID'),
-    }
-    const res = await APICtodos.ttt(args)
-    console.log(res)
-    const curDate = new Date()
-    console.log(curDate)
-    const aDate = new Date(res[0].date_end)
-    console.log(aDate)
-    if (new Date(res[0].date_end) > new Date()) {
-      console.log('kek')
-    } else {
-      console.log('ne kek')
-    }
-  }
-
   return (
     <div className={styles.navbar}>
       <MyButton
@@ -71,8 +52,6 @@ const MyNavbar = (props) => {
       <div className={styles.navbar__btns}>
         <MyButton children={'Мои просроченные задачи'} onClick={() => {props.filter('overdued')}} />
       </div>
-      {/* тестовая кнопачка */}
-      <button onClick={getTest}>asdasd</button>
       <div className={styles.navbar__exit}>
         <span className={styles.navbar__span}>
           Пользователь: {localStorage.getItem('userLogin')} (

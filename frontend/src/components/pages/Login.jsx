@@ -45,14 +45,12 @@ const Login = (props) => {
   }
 
   const registration = async () => {
-    // TODO: реализовать регистрацию через отдельную модалку
     if ((userName == '') || (userPassword == '')) {
       setModal(!modal)
       setModalMessage('Ошибка регистрации.')
       return
     }
 
-    // TODO: нужна проверка на дубликаты при регистрации пользователя
     const hash = salting(userPassword)
     const addUser = await APIClogin.register(userName, hash)
 

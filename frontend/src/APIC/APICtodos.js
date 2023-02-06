@@ -36,13 +36,6 @@ class APICtodos {
     })
     return response.data
   }
-
-  static ttt = async (args) => {
-    const response = await axios.post(`http://${FETCH_ADDR}:${FETCH_PORT}/todos/ttt`, {
-      args,
-    })
-    return response.data
-  }
 }
 
 export { APICtodos }
