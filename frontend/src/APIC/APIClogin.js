@@ -26,8 +26,11 @@ class APIClogin {
     return response.data
   }
 
-  static getUsers = async () => {
-    const response = await axios.get(`http://${FETCH_ADDR}:${FETCH_PORT}/users/allusers`)
+  static getUsers = async (depID, userRoleID) => {
+    const response = await axios.post(`http://${FETCH_ADDR}:${FETCH_PORT}/users/allusers`, {
+      depID,
+      userRoleID,
+    })
     return response.data
   }
 }

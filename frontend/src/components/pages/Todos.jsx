@@ -11,7 +11,10 @@ const Todos = (props) => {
 
   // подгружаем список пользователей с бд
   const getUsers = async () => {
-    const res = await APIClogin.getUsers()
+    const res = await APIClogin.getUsers(
+      localStorage.getItem('depID'),
+      localStorage.getItem('userRoleID')
+    )
     setUserSelect(createOptions(res))
   }
 
@@ -60,7 +63,7 @@ const Todos = (props) => {
 
   useEffect(() => {
     getAllTodos()
-  },[])
+  }, [])
 
   const filter = (arg) => {
     if (arg === 'all') {

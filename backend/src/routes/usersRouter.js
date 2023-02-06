@@ -6,6 +6,6 @@ const router = new Router()
 router.post('/login', UsersController.login)
 router.post('/logout', UsersController.removeActive)
 router.post('/register', UsersController.register)
-router.get('/allusers', UsersController.getAll)
+router.post('/allusers', UsersController.getAll)
 
 export default router

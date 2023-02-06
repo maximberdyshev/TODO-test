@@ -10,6 +10,8 @@ class UsersController {
   static getAll = async (req, res) => {
     await knx('users')
       .select('login', 'id')
+      .where('department', '=', req.body.depID)
+      .andWhere('role', '<=', req.body.userRoleID)
       .then((arr) => {
         if (arr.length != 0) {
           return res.json(arr)
