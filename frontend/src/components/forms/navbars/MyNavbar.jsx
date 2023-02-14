@@ -40,20 +40,20 @@ const MyNavbar = (props) => {
       <MyModal visible={modal} setVisible={setModal}>
         <TodoCreate createTodo={createTodo} items={props.userSelect} />
       </MyModal>
-      <div className={styles.navbar__btns}>
+      <div className={styles.navbarBtn}>
         <MyButton children={'Все задачи'} onClick={() => {props.filter('all')}} />
       </div>
-      <div className={styles.navbar__btns}>
+      <div className={styles.navbarBtn}>
         <MyButton children={'Я ответственный'} onClick={() => {props.filter('me_executor')}} />
       </div>
-      <div className={styles.navbar__btns}>
+      <div className={styles.navbarBtn}>
         <MyButton children={'Мои выполненные задачи'} onClick={() => {props.filter('completed')}} />
       </div>
-      <div className={styles.navbar__btns}>
+      <div className={styles.navbarBtn}>
         <MyButton children={'Мои просроченные задачи'} onClick={() => {props.filter('overdued')}} />
       </div>
-      <div className={styles.navbar__exit}>
-        <span className={styles.navbar__span}>
+      <div className={styles.navbarExit}>
+        <span className={styles.navbarSpan}>
           Пользователь: {localStorage.getItem('userLogin')} (
           {localStorage.getItem('userRole')})
         </span>

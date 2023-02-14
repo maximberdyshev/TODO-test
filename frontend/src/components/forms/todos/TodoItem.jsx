@@ -8,7 +8,7 @@ const TodoItem = ({ todo, number, ...props }) => {
   const [modal, setModal] = useState(false)
 
   return (
-    <div className={styles.TodoItem}>
+    <div className={styles.todoItem}>
       <div className={styles.item_part}>
         {(() => {
           if (todo.status === 2) {

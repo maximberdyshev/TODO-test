@@ -7,21 +7,16 @@
   background-color: lightgray;
 }
 
-.navbar__btns {
+.navbarBtn {
   margin-left: 5px;
 }
 
-.navbar__exit {
+.navbarExit {
   margin-left: auto;
   margin-right: 25px;
 }
 
-.navbar__span {
+.navbarSpan {
   margin-left: auto;
   margin-right: 25px;
 }
-
-/* .navbar__links {
-  border: 1px solid peru;
-  padding: 5px 15px;
-} */

@@ -91,7 +91,7 @@ const Todos = (props) => {
         userSelect={userSelect}
         filter={filter}
       />
-      <div className={styles.TodoList}>
+      <div className={styles.todoList}>
         <TodoList
           todos={filtered}
           setTodos={setFiltered}

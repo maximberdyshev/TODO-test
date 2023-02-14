@@ -1,4 +1,4 @@
-.TodoItem {
+.todoItem {
   display: flex;
   margin-top: 5px;
   padding: 10px;
@@ -7,7 +7,7 @@
   justify-content: space-between;
 }
 
-.item__part {
+.itemPart {
   display: flex;
   flex-direction: column;
 }
@@ -15,10 +15,3 @@
 .btn {
   display: flex;
 }
-
-/* .inpt {
-  display: flex;
-  margin-top: 5px;
-  padding: 10px;
-  border: 2px solid peru;
-} */
