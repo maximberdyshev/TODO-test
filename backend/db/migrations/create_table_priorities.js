@@ -15,7 +15,7 @@ const up = (knex) => {
    * @returns { Promise<void> }
    */
   const down = (knex) => {
-    // return knex.schema.dropTable('priorities')
+    return knex.schema.dropTable('priorities')
   }
   
   export { up, down }

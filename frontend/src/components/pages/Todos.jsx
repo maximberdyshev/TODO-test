@@ -33,21 +33,7 @@ const Todos = (props) => {
     getUsers()
   }, [])
 
-  // памятка: образец полей тудушки
-  const [todos, setTodos] = useState([
-    // {
-    //   id: 1,
-    //   title: 'Заголовок задачи 1',
-    //   description: 'Описание задачи 1',
-    //   dateEnd: '2022-10-10',
-    //   dateCreate: '2022-01-01',
-    //   dateUpdate: '2022-05-05',
-    //   priority: 'средний',
-    //   completed: false,
-    //   initiator: 'Smith',
-    //   executor: 'Smith',
-    // },
-  ])
+  const [todos, setTodos] = useState([])
 
   const [filtered, setFiltered] = useState([])
 

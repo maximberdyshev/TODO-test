@@ -46,7 +46,7 @@ const up = (knex) => {
  * @returns { Promise<void> }
  */
 const down = (knex) => {
-  // return knex.schema.dropTable('todos')
+  return knex.schema.dropTable('todos')
 }
 
 export { up, down }
