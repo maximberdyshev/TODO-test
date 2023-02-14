@@ -7,8 +7,8 @@ dotenv.config({ path: '~/Prog/std/.env' })
 const knx = knex(knexfile[process.env.KNEX_PROFILE])
 
 class UsersController {
-  static getAll = async (req, res) => {
-    await knx('users')
+  static getAll = (req, res) => {
+    knx('users')
       .select('login', 'id')
       .where('department', '=', req.body.depID)
       .andWhere('role', '<=', req.body.userRoleID)
@@ -25,14 +25,15 @@ class UsersController {
       })
   }
 
-  static login = async (req, res) => {
-    await knx({ u: 'users' })
+  static login = (req, res) => {
+    knx({ u: 'users' })
       .innerJoin({ r: 'roles' }, 'u.role', '=', 'r.id')
       .select(
-        { id: 'u.id' }, 
+        { id: 'u.id' },
         { roleID: 'u.role' },
         { role: 'r.role' },
-        { depID: 'u.department' })
+        { depID: 'u.department' }
+      )
       .where({ login: req.body.login, password: req.body.password })
       .then((arr) => {
         if (arr.length == 1) {
@@ -48,8 +49,8 @@ class UsersController {
       })
   }
 
-  static addActive = async (id, login, sessionID) => {
-    await knx('active_users')
+  static addActive = (id, login, sessionID) => {
+    knx('active_users')
       .insert({ user_id: id, user_login: login, session_id: sessionID })
       .then(() => {
         return 0
@@ -60,8 +61,8 @@ class UsersController {
       })
   }
 
-  static removeActive = async (req, res) => {
-    await knx('active_users')
+  static removeActive = (req, res) => {
+    knx('active_users')
       .where({ user_login: req.body.login, session_id: req.body.sessionID })
       .del()
       .then(() => {
@@ -73,21 +74,21 @@ class UsersController {
       })
   }
 
-  static register = async (req, res) => {
-    await knx('users')
-    .insert({
-      first_name: 'placeholder',
-      surname: 'placeholder',
-      login: req.body.login,
-      password: req.body.password,
-    })
-    .then(() => {
-      return res.json(0)
-    })
-    .catch((err) => {
-      console.log(`UserController.register(), err: ${err}`)
-      return res.json(1)
-    })
+  static register = (req, res) => {
+    knx('users')
+      .insert({
+        first_name: 'placeholder',
+        surname: 'placeholder',
+        login: req.body.login,
+        password: req.body.password,
+      })
+      .then(() => {
+        return res.json(0)
+      })
+      .catch((err) => {
+        console.log(`UserController.register(), err: ${err}`)
+        return res.json(1)
+      })
   }
 }
 

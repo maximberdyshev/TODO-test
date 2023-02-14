@@ -7,8 +7,8 @@ dotenv.config({ path: '~/Prog/std/.env' })
 const knx = knex(knexfile[process.env.KNEX_PROFILE])
 
 class TodosController {
-  static getAll = async (req, res) => {
-    await knx('todos')
+  static getAll = (req, res) => {
+    knx('todos')
       .innerJoin({ u1: 'users' }, 'todos.executor', '=', 'u1.id')
       .innerJoin({ u2: 'users' }, 'todos.initiator', '=', 'u2.id')
       .innerJoin('priorities', 'todos.priority', '=', 'priorities.id')
@@ -25,7 +25,7 @@ class TodosController {
         'todos.status',
         { executor: 'u1.login' },
         { initiator: 'u2.login' },
-        { initiatorRole: 'u2.role'}
+        { initiatorRole: 'u2.role' }
       )
       .where('u1.department', req.body.args.depID)
       .andWhere('u1.role', '<=', req.body.args.roleID)
@@ -42,8 +42,8 @@ class TodosController {
       })
   }
 
-  static updateTask = async (req, res) => {
-    await knx('priorities')
+  static updateTask = (req, res) => {
+    knx('priorities')
       .select('id')
       .where({ priority: req.body.todo.priority })
       .then((id) => {
@@ -54,7 +54,7 @@ class TodosController {
         return res.json(false)
       })
 
-    await knx('users')
+    knx('users')
       .select('id')
       .where({ login: req.body.todo.executor })
       .then((id) => {
@@ -65,7 +65,7 @@ class TodosController {
         return res.json(false)
       })
 
-    await knx('todos')
+    knx('todos')
       .where('id', '=', req.body.todo.id)
       .update({
         title: req.body.todo.title,
@@ -83,8 +83,8 @@ class TodosController {
       })
   }
 
-  static completeTask = async (req, res) => {
-    await knx('todos')
+  static completeTask = (req, res) => {
+    knx('todos')
       .where('id', '=', req.body.id)
       .update({ status: req.body.status })
       .then(() => {
@@ -96,8 +96,8 @@ class TodosController {
       })
   }
 
-  static createTask = async (req, res) => {
-    await knx('todos')
+  static createTask = (req, res) => {
+    knx('todos')
       .returning('id')
       .insert({
         title: req.body.todo.title,
@@ -116,8 +116,8 @@ class TodosController {
       })
   }
 
-  static deleteTask = async (req, res) => {
-    await knx('todos')
+  static deleteTask = (req, res) => {
+    knx('todos')
       .where({ id: req.body.id })
       .del()
       .then(() => {
