@@ -33,59 +33,28 @@ const Todos = (props) => {
     getUsers()
   }, [])
 
-  const [todos, setTodos] = useState([])
-
   const [filtered, setFiltered] = useState([])
-
-  const getAllTodos = async () => {
-    const args = {
+  
+  const filter = async (arg) => {
+    const res = await APICtodos.getTask({
+      userLogin: localStorage.getItem('userLogin'),
       roleID: localStorage.getItem('userRoleID'),
       depID: localStorage.getItem('depID'),
-    }
-    const res = await APICtodos.getAllTask(args)
-    setTodos(res)
+      filter: arg,
+    })
+    localStorage.setItem('filter', arg)
     setFiltered(res)
   }
-
+  
   useEffect(() => {
-    getAllTodos()
+    filter(localStorage.getItem('filter'))
   }, [])
-
-  const filter = (arg) => {
-    if (arg === 'all') {
-      setFiltered(todos)
-      localStorage.setItem('filter', 'all')
-    } else if (arg === 'me_executor') {
-      let newTodos = [...todos].filter(
-        (todo) => todo.executor === localStorage.getItem('userLogin')
-      )
-      setFiltered(newTodos)
-      localStorage.setItem('filter', 'me_executor')
-    } else if (arg === 'completed') {
-      let newTodos = [...todos].filter(
-        (todo) =>
-          todo.status === 2 &&
-          todo.executor === localStorage.getItem('userLogin')
-      )
-      setFiltered(newTodos)
-      localStorage.setItem('filter', 'completed')
-    } else if (arg === 'overdued') {
-      let newTodos = [...todos].filter(
-        (todo) =>
-          todo.status === 1 &&
-          new Date(todo.date_end) < new Date() &&
-          todo.executor === localStorage.getItem('userLogin')
-      )
-      setFiltered(newTodos)
-      localStorage.setItem('filter', 'overdued')
-    }
-  }
 
   return (
     <div className={styles.todos}>
       <MyNavbar
         todos={filtered}
-        setTodos={setTodos}
+        setTodos={setFiltered}
         isAuth={props.isAuth}
         setAuth={props.setAuth}
         userSelect={userSelect}

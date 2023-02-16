@@ -31,13 +31,14 @@ const Login = (props) => {
 
     if (res.id) {
       props.setAuth(!props.isAuth)
-      localStorage.setItem('authorized', '0')
+      localStorage.setItem('authorized', 0)
       localStorage.setItem('userLogin', userName)
       localStorage.setItem('sessionID', sessionID)
       localStorage.setItem('userID', res.id)
       localStorage.setItem('userRole', res.role)
       localStorage.setItem('userRoleID', res.roleID)
       localStorage.setItem('depID', res.depID)
+      localStorage.setItem('filter', 'all')
     } else {
       setModalMessage('Неправильный логин или пароль.')
       setModal(!modal)

@@ -3,7 +3,7 @@ import { TodosController } from '../controllers/TodosController.js'
 
 const router = new Router()
 
-router.post('/all', TodosController.getAll)
+router.post('/task', TodosController.getTasks)
 router.post('/update', TodosController.updateTask)
 router.post('/complete', TodosController.completeTask)
 router.post('/create', TodosController.createTask)

@@ -7,39 +7,152 @@ dotenv.config({ path: '~/Prog/std/.env' })
 const knx = knex(knexfile[process.env.KNEX_PROFILE])
 
 class TodosController {
-  static getAll = (req, res) => {
-    knx('todos')
-      .innerJoin({ u1: 'users' }, 'todos.executor', '=', 'u1.id')
-      .innerJoin({ u2: 'users' }, 'todos.initiator', '=', 'u2.id')
-      .innerJoin('priorities', 'todos.priority', '=', 'priorities.id')
-      .innerJoin('roles', 'u1.role', '=', 'roles.id')
-      .innerJoin('departments', 'u1.department', '=', 'departments.id')
-      .select(
-        'todos.id',
-        'todos.title',
-        'todos.description',
-        'todos.date_create',
-        'todos.date_update',
-        'todos.date_end',
-        'priorities.priority',
-        'todos.status',
-        { executor: 'u1.login' },
-        { initiator: 'u2.login' },
-        { initiatorRole: 'u2.role' }
-      )
-      .where('u1.department', req.body.args.depID)
-      .andWhere('u1.role', '<=', req.body.args.roleID)
-      .then((arr) => {
-        if (arr.length >= 1) {
-          return res.json(arr)
-        } else {
-          return res.json([])
-        }
-      })
-      .catch((err) => {
-        console.log(`TodosController.getAll(), err: ${err}`)
-        return res.json(1)
-      })
+  static getTasks = (req, res) => {
+    if (req.body.args.filter === 'all') {
+      knx('todos')
+        .innerJoin({ u1: 'users' }, 'todos.executor', '=', 'u1.id')
+        .innerJoin({ u2: 'users' }, 'todos.initiator', '=', 'u2.id')
+        .innerJoin('priorities', 'todos.priority', '=', 'priorities.id')
+        .innerJoin('roles', 'u1.role', '=', 'roles.id')
+        .innerJoin('departments', 'u1.department', '=', 'departments.id')
+        .select(
+          'todos.id',
+          'todos.title',
+          'todos.description',
+          'todos.date_create',
+          'todos.date_update',
+          'todos.date_end',
+          'priorities.priority',
+          'todos.status',
+          { executor: 'u1.login' },
+          { initiator: 'u2.login' },
+          { initiatorRole: 'u2.role' }
+        )
+        .where('u1.department', req.body.args.depID)
+        .andWhere('u1.role', '<=', req.body.args.roleID)
+        .then((arr) => {
+          if (arr.length >= 1) {
+            return res.json(arr)
+          } else {
+            return res.json([])
+          }
+        })
+        .catch((err) => {
+          console.log(`TodosController.getTasks(), (all), err: ${err}`)
+          return res.json(1)
+        })
+    }
+
+    if (req.body.args.filter === 'me_executor') {
+      knx('todos')
+        .innerJoin({ u1: 'users' }, 'todos.executor', '=', 'u1.id')
+        .innerJoin({ u2: 'users' }, 'todos.initiator', '=', 'u2.id')
+        .innerJoin('priorities', 'todos.priority', '=', 'priorities.id')
+        .innerJoin('roles', 'u1.role', '=', 'roles.id')
+        .innerJoin('departments', 'u1.department', '=', 'departments.id')
+        .select(
+          'todos.id',
+          'todos.title',
+          'todos.description',
+          'todos.date_create',
+          'todos.date_update',
+          'todos.date_end',
+          'priorities.priority',
+          'todos.status',
+          { executor: 'u1.login' },
+          { initiator: 'u2.login' },
+          { initiatorRole: 'u2.role' }
+        )
+        .where('u1.department', '=', req.body.args.depID)
+        .andWhere('u1.role', '<=', req.body.args.roleID)
+        .andWhere('u1.login', '=', req.body.args.userLogin)
+        .then((arr) => {
+          if (arr.length >= 1) {
+            return res.json(arr)
+          } else {
+            return res.json([])
+          }
+        })
+        .catch((err) => {
+          console.log(`TodosController.getTasks(), (me_executor), err: ${err}`)
+          return res.json(1)
+        })
+    }
+
+    if (req.body.args.filter === 'completed') {
+      knx('todos')
+        .innerJoin({ u1: 'users' }, 'todos.executor', '=', 'u1.id')
+        .innerJoin({ u2: 'users' }, 'todos.initiator', '=', 'u2.id')
+        .innerJoin('priorities', 'todos.priority', '=', 'priorities.id')
+        .innerJoin('roles', 'u1.role', '=', 'roles.id')
+        .innerJoin('departments', 'u1.department', '=', 'departments.id')
+        .innerJoin({ sl: 'status_list' }, 'todos.status', '=', 'sl.id')
+        .select(
+          'todos.id',
+          'todos.title',
+          'todos.description',
+          'todos.date_create',
+          'todos.date_update',
+          'todos.date_end',
+          'priorities.priority',
+          'todos.status',
+          { executor: 'u1.login' },
+          { initiator: 'u2.login' },
+          { initiatorRole: 'u2.role' }
+        )
+        .where('u1.department', req.body.args.depID)
+        .andWhere('u1.role', '<=', req.body.args.roleID)
+        .andWhere('sl.status', '=', 'выполнено')
+        .then((arr) => {
+          if (arr.length >= 1) {
+            return res.json(arr)
+          } else {
+            return res.json([])
+          }
+        })
+        .catch((err) => {
+          console.log(`TodosController.getTasks(), (completed), err: ${err}`)
+          return res.json(1)
+        })
+    }
+
+    if (req.body.args.filter === 'overdued') {
+      knx('todos')
+        .innerJoin({ u1: 'users' }, 'todos.executor', '=', 'u1.id')
+        .innerJoin({ u2: 'users' }, 'todos.initiator', '=', 'u2.id')
+        .innerJoin('priorities', 'todos.priority', '=', 'priorities.id')
+        .innerJoin('roles', 'u1.role', '=', 'roles.id')
+        .innerJoin('departments', 'u1.department', '=', 'departments.id')
+        .innerJoin({ sl: 'status_list' }, 'todos.status', '=', 'sl.id')
+        .select(
+          'todos.id',
+          'todos.title',
+          'todos.description',
+          'todos.date_create',
+          'todos.date_update',
+          'todos.date_end',
+          'priorities.priority',
+          'todos.status',
+          { executor: 'u1.login' },
+          { initiator: 'u2.login' },
+          { initiatorRole: 'u2.role' }
+        )
+        .where('u1.department', req.body.args.depID)
+        .andWhere('u1.role', '<=', req.body.args.roleID)
+        .andWhere('todos.date_end', '<', new Date().toISOString().split('T')[0])
+        .andWhere('sl.status', '!=', 'выполнено')
+        .then((arr) => {
+          if (arr.length >= 1) {
+            return res.json(arr)
+          } else {
+            return res.json([])
+          }
+        })
+        .catch((err) => {
+          console.log(`TodosController.getTasks(), (overdued), err: ${err}`)
+          return res.json(1)
+        })
+    }
   }
 
   static updateTask = (req, res) => {

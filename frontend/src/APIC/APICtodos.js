@@ -1,8 +1,8 @@
 import axios from 'axios'
 
 class APICtodos {
-  static getAllTask = async (args) => {
-    const response = await axios.post(`http://${FETCH_ADDR}:${FETCH_PORT}/todos/all`, {
+  static getTask = async (args) => {
+    const response = await axios.post(`http://${FETCH_ADDR}:${FETCH_PORT}/todos/task`, {
       args,
     })
     return response.data
